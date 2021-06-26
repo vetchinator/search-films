@@ -11,6 +11,7 @@ import { getFilms } from '../../redux/movies-reducer';
 import * as queryString from 'querystring';
 import { useHistory } from 'react-router';
 import SearchForm from '../Search/SearchForm';
+import { v1 } from 'uuid';
 
 type QueryType = {
     title?: string | undefined,
@@ -23,17 +24,8 @@ const Movies: React.FC = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
-
-    let movies: Array<movieType> | null = useSelector((state: RootState) => state.moviesPage.movies);
-    let loading = useSelector((state: RootState) => state.moviesPage.loading);
-    const totalCountMovies = Number(useSelector(getTotalCountMovies));
     const filter = useSelector(getfilter);
     const currentPage = useSelector(getCurrentPage);
-    const errorMessage = useSelector(getErrorMessage);
-
-    const onChange = (page: number) => {
-        dispatch(getFilms(filter, page));
-    }
 
     useEffect(() => {
         const parsed = queryString.parse(history.location.search.substr(1)) as QueryType;
@@ -63,26 +55,32 @@ const Movies: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter, currentPage])
 
-    if (loading) {
-        return <Preloader />
+    let movies: Array<movieType> | null = useSelector((state: RootState) => state.moviesPage.movies);
+    let loading = useSelector((state: RootState) => state.moviesPage.loading);
+    const totalCountMovies = Number(useSelector(getTotalCountMovies));
+    
+    
+    const errorMessage = useSelector(getErrorMessage);
+
+    const onChange = (page: number) => {
+        dispatch(getFilms(filter, page));
     }
 
     return (
         <>
-        { console.log("MOvies render") }
             <SearchForm />
-                <div>
-                {movies &&  <div className={style.moviesWrapper}>
-                        {movies.map((movie) => (
-                            <React.Fragment key={movie.imdbID} >
-                                <Movie movie={movie} />
-                            </React.Fragment>
-                        ))}
-                    </div>}
-                    <div style={{ textAlign: 'center' }}>
-                        <Pagination showQuickJumper={true} className={style.pagination} current={currentPage} defaultCurrent={1} onChange={onChange} total={totalCountMovies} pageSize={10} pageSizeOptions={[]} />
-                    </div>
+            {loading ? <Preloader /> : <div>
+                {movies.length !==0 && <div className={style.moviesWrapper}>
+                    {movies.map((movie) => (
+                        <React.Fragment key={v1()} >
+                            <Movie movie={movie} />
+                        </React.Fragment>
+                    ))}
+                </div>}
+                <div style={{ textAlign: 'center' }}>
+                    <Pagination showQuickJumper={true} className={style.pagination} current={currentPage} defaultCurrent={1} onChange={onChange} total={totalCountMovies} pageSize={10} pageSizeOptions={[]} />
                 </div>
+            </div>}
             {errorMessage && <div style={{ textAlign: 'center' }}>{errorMessage}</div>}
         </>
     )
