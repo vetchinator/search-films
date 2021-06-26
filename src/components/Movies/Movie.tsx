@@ -16,7 +16,6 @@ const Movie: React.FC<PropType> = ({ movie }) => {
 
     return (
         <Link to={ `/film/${movie.imdbID}`} onClick={onClick} replace={true}>
-            {console.log('render')}
             <div className={style.movieWrapper}>
                 <img className={style.poster} src={movie.Poster} alt={`poster ${movie.Title}`} />
                 <div className={style.featureMovie}>

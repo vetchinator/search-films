@@ -18,6 +18,7 @@ const MovieFullDescription: React.FC = () => {
     useEffect(() => {
         const id = String(history.location.pathname.substr(6));
         dispatch(getFilmDescription(id));
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
 
     const filmDescription: FilmDescType = useSelector(selectFilmDescription);
