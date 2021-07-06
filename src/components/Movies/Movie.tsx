@@ -5,7 +5,7 @@ import { actions } from '../../redux/movies-reducer';
 import { movieType } from '../../types/type';
 import style from './Movies.module.css';
 
-type PropType = {movie: movieType}
+type PropType = { movie: movieType }
 
 const Movie: React.FC<PropType> = ({ movie }) => {
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const Movie: React.FC<PropType> = ({ movie }) => {
     }
 
     return (
-        <Link to={ `/film/${movie.imdbID}`} onClick={onClick} replace={true}>
+        <Link to={`/film/${movie.imdbID}`} onClick={onClick} replace={true}>
             <div className={style.movieWrapper}>
                 <img className={style.poster} src={movie.Poster} alt={`poster ${movie.Title}`} />
                 <div className={style.featureMovie}>

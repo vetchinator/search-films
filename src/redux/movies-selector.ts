@@ -3,6 +3,9 @@ import { RootState } from './redux-store';
 export const getTotalCountMovies = (state: RootState) => {
     return state.moviesPage.totalCountMovies;
 }
+export const getMovies = (state: RootState) => {
+    return state.moviesPage.movies;
+}
 
 export const getfilter = (state: RootState) => {
     return state.moviesPage.filter;
@@ -18,6 +21,10 @@ export const getErrorMessage = (state: RootState) => {
 
 export const selectFilmDescription = (state: RootState) => {
     return state.moviesPage.filmDescription;
+}
+
+export const selectLoading = (state: RootState) => {
+    return state.moviesPage.loading;
 }
 
 

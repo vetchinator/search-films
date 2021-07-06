@@ -2,7 +2,7 @@ import { Pagination } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/redux-store';
-import { getCurrentPage, getErrorMessage, getfilter, getTotalCountMovies } from '../../redux/movies-selector';
+import { getCurrentPage, getErrorMessage, getfilter, getTotalCountMovies, selectLoading, getMovies } from '../../redux/movies-selector';
 import { movieType } from '../../types/type';
 import Preloader from '../common/Preloader/Preloader';
 import Movie from './Movie';
@@ -55,11 +55,9 @@ const Movies: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter, currentPage])
 
-    let movies: Array<movieType> | null = useSelector((state: RootState) => state.moviesPage.movies);
-    let loading = useSelector((state: RootState) => state.moviesPage.loading);
+    let movies = useSelector(getMovies);
+    let loading = useSelector(selectLoading);
     const totalCountMovies = Number(useSelector(getTotalCountMovies));
-    
-    
     const errorMessage = useSelector(getErrorMessage);
 
     const onChange = (page: number) => {
@@ -70,7 +68,7 @@ const Movies: React.FC = () => {
         <>
             <SearchForm />
             {loading ? <Preloader /> : <div>
-                {movies.length !==0 && <div className={style.moviesWrapper}>
+                {movies.length !== 0 && <div className={style.moviesWrapper}>
                     {movies.map((movie) => (
                         <React.Fragment key={v1()} >
                             <Movie movie={movie} />
