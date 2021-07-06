@@ -93,6 +93,4 @@ export const getFilmDescription =
         }
     };
 
-    
-
 export default moviesReducer;

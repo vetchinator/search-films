@@ -8,12 +8,7 @@ type PropType = {
 
 const CharacterRow: React.FC<PropType> = ({ title, value }) => {
 
-    // if(!title) {
-    //     return
-    // }
-
     return (
-        
         <div className={style.row}>
             <div className={style.title}>
                 {title}
