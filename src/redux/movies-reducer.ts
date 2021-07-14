@@ -10,8 +10,8 @@ type ThunkType = ThunkAction<Promise<void>, RootState, unknown, ActionTypes>;
 
 let initialState = {
     loading: false,
-    movies: [] as Array<movieType> ,
-    errorMessage: '',
+    movies: null as Array<movieType> | null ,
+    errorMessage: null as string | null,
     totalCountMovies: '',
     currentPage: 1,
     filter: {
@@ -29,7 +29,7 @@ const moviesReducer = (state = initialState, action: ActionTypes): InitialStateT
             return { ...state, loading: true }
         }
         case 'sm/SEARCH_REQUEST_SUCCESS': {
-            return { ...state, movies: action.movies}
+            return { ...state, movies: action.movies, errorMessage: null, loading: false}
         }
         case 'sm/SEARCH_REQUEST_ERROR': {
             return { ...state, loading: false, errorMessage: action.error }
@@ -56,8 +56,8 @@ const moviesReducer = (state = initialState, action: ActionTypes): InitialStateT
 
 export const actions = {
     searchRequest: () => ({ type: "sm/SEARCH_REQUEST" } as const), 
-    searchRequestSuccess: (movies: Array<movieType>) => ({ type: "sm/SEARCH_REQUEST_SUCCESS", movies } as const), 
-    searchRequestError: (error: string) => ({ type: "sm/SEARCH_REQUEST_ERROR", error } as const), 
+    searchRequestSuccess: (movies: Array<movieType> | null) => ({ type: "sm/SEARCH_REQUEST_SUCCESS", movies } as const), 
+    searchRequestError: (error: string | null) => ({ type: "sm/SEARCH_REQUEST_ERROR", error } as const), 
     setTotalCountMovies: (totalResults: string) => ({ type: "sm/SET_TOTAL_COUNT_MOVIES", totalResults} as const),
     setCurrentPage: (page: number) => ({ type: "sm/SET_CURRENT_PAGE", page} as const),
     setFilter: (filter: FilterType) => ({ type: "sm/SET_FILTER", filter} as const),
@@ -68,14 +68,13 @@ export const actions = {
 export const getFilms =
     (filter: FilterType, page: number): ThunkType =>
     async (dispatch) => {
-        dispatch(actions.searchRequestSuccess([]));
+        dispatch(actions.searchRequestSuccess(null));
         dispatch(actions.searchRequest());
         dispatch(actions.setCurrentPage(page));
         dispatch(actions.setFilter(filter));
 
         let data = await API.getFilms(filter, page);
         if (data.Response === "True") {
-            dispatch(actions.searchRequestError(""));
             dispatch(actions.searchRequestSuccess(data.Search));
             dispatch(actions.setTotalCountMovies(data.totalResults));
         } else {
@@ -85,6 +84,7 @@ export const getFilms =
 export const getFilmDescription =
     (id: string): ThunkType =>
     async (dispatch) => {
+        dispatch(actions.setFilmDescription(''));
         let data = await API.getFilmDescription(id);
         if (data.Response === 'True') {
             dispatch(actions.setFilmDescription(data));
