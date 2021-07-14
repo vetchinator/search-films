@@ -1,17 +1,27 @@
 import { Pagination } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/redux-store';
 import { getCurrentPage, getErrorMessage, getfilter, getTotalCountMovies, selectLoading, getMovies } from '../../redux/movies-selector';
-import { movieType } from '../../types/type';
 import Preloader from '../common/Preloader/Preloader';
 import Movie from './Movie';
-import style from './Movies.module.css';
 import { getFilms } from '../../redux/movies-reducer';
 import * as queryString from 'querystring';
 import { useHistory } from 'react-router';
 import SearchForm from '../Search/SearchForm';
 import { v1 } from 'uuid';
+import { ErrorMessage } from '../StyledComponets/StyledComponents';
+import styled from 'styled-components/macro';
+
+const MoviesWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    grid-column-gap: 15px;
+    column-gap: 15px;
+    grid-row-gap: 15px;
+    row-gap: 15px;
+`
 
 type QueryType = {
     title?: string | undefined,
@@ -64,22 +74,30 @@ const Movies: React.FC = () => {
         dispatch(getFilms(filter, page));
     }
 
+    if (loading) {
+        return <Preloader />
+    }
+
     return (
         <>
             <SearchForm />
-            {loading ? <Preloader /> : <div>
-                {movies.length !== 0 && <div className={style.moviesWrapper}>
-                    {movies.map((movie) => (
-                        <React.Fragment key={v1()} >
-                            <Movie movie={movie} />
-                        </React.Fragment>
-                    ))}
-                </div>}
-                <div style={{ textAlign: 'center' }}>
-                    <Pagination showQuickJumper={true} className={style.pagination} current={currentPage} defaultCurrent={1} onChange={onChange} total={totalCountMovies} pageSize={10} pageSizeOptions={[]} />
-                </div>
-            </div>}
-            {errorMessage && <div style={{ textAlign: 'center' }}>{errorMessage}</div>}
+            {movies && <MoviesWrapper>
+                {movies.map((movie) => (
+                    <Movie key={v1()} movie={movie} />
+                ))}
+            </MoviesWrapper>}
+
+            {movies && <Pagination
+                showQuickJumper={true}
+                current={currentPage}
+                defaultCurrent={1}
+                onChange={onChange}
+                total={totalCountMovies}
+                pageSize={10}
+                pageSizeOptions={[]}
+                style={{ marginTop: '30px' }}
+            />}
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </>
     )
 }
