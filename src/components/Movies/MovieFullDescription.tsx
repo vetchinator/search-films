@@ -6,9 +6,9 @@ import { useHistory } from 'react-router';
 import CharacterRow from '../CharacterRow/CharacterRow';
 import { Button } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
-import style from './Movies.module.css';
 import { FilmDescType } from '../../types/type';
 import Preloader from '../common/Preloader/Preloader';
+import { Poster, Container } from '../StyledComponets/StyledComponents';
 
 const MovieFullDescription: React.FC = () => {
 
@@ -32,48 +32,40 @@ const MovieFullDescription: React.FC = () => {
     }
 
     return (
-        <div>
-            <div>
+        <>
+            <Button onClick={goToBack}> <LeftOutlined /> Back</Button>
+            <Container>
+                <Poster src={filmDescription.Poster} alt={`poster ${filmDescription.Title}`} margin={'0 10px'} />
                 <div>
-                    <Button onClick={goToBack}> <LeftOutlined /> Back</Button>
-                </div>
-                <div className={style.container}>
-                    <div className={style.descriptionPoster}>
-                        <img src={filmDescription.Poster} alt={`poster ${filmDescription.Title}`} />
-                    </div>
-                    <div>
-                        <CharacterRow title='Title' value={filmDescription.Title} />
-                        <CharacterRow title='Year' value={filmDescription.Year} />
-                        <CharacterRow title='Country' value={filmDescription.Country} />
-                        <CharacterRow title='Genre' value={filmDescription.Genre} />
-                        <CharacterRow title='Writer' value={filmDescription.Writer} />
-                        <CharacterRow title='Director' value={filmDescription.Director} />
-                        <CharacterRow title='Production' value={filmDescription.Production} />
-                        <CharacterRow title='Director' value={filmDescription.Director} />
-                        <CharacterRow title='Actors' value={filmDescription.Actors} />
-                        <CharacterRow title='Language' value={filmDescription.Language} />
-                        <CharacterRow title='Awards' value={filmDescription.Awards} />
-                        <CharacterRow title='Metascore' value={filmDescription.Metascore} />
-                        <CharacterRow title='Released' value={filmDescription.Released} />
-                        <CharacterRow title='Type' value={filmDescription.Type} />
-                        <CharacterRow title='DVD' value={filmDescription.DVD} />
-                        <CharacterRow title='BoxOffice' value={filmDescription.BoxOffice} />
-                        <CharacterRow title='Rated' value={filmDescription.Rated} />
-                        <CharacterRow title='Website' value={filmDescription.Website} />
-                        <CharacterRow title='Plot' value={filmDescription.Plot} />
-                        <CharacterRow title='imdbID' value={filmDescription.imdbID} />
-                        <CharacterRow title='imdbRating' value={filmDescription.imdbRating} />
-                        <CharacterRow title='imdbVotes' value={filmDescription.imdbVotes} />
-                        <CharacterRow title='Runtime' value={filmDescription.Runtime} />
+                    <CharacterRow title='Title' value={filmDescription.Title} />
+                    <CharacterRow title='Year' value={filmDescription.Year} />
+                    <CharacterRow title='Country' value={filmDescription.Country} />
+                    <CharacterRow title='Genre' value={filmDescription.Genre} />
+                    <CharacterRow title='Writer' value={filmDescription.Writer} />
+                    <CharacterRow title='Director' value={filmDescription.Director} />
+                    <CharacterRow title='Production' value={filmDescription.Production} />
+                    <CharacterRow title='Actors' value={filmDescription.Actors} />
+                    <CharacterRow title='Language' value={filmDescription.Language} />
+                    <CharacterRow title='Awards' value={filmDescription.Awards} />
+                    <CharacterRow title='Metascore' value={filmDescription.Metascore} />
+                    <CharacterRow title='Released' value={filmDescription.Released} />
+                    <CharacterRow title='Type' value={filmDescription.Type} />
+                    <CharacterRow title='DVD' value={filmDescription.DVD} />
+                    <CharacterRow title='BoxOffice' value={filmDescription.BoxOffice} />
+                    <CharacterRow title='Rated' value={filmDescription.Rated} />
+                    <CharacterRow title='Website' value={filmDescription.Website} />
+                    <CharacterRow title='Plot' value={filmDescription.Plot} />
+                    <CharacterRow title='imdbID' value={filmDescription.imdbID} />
+                    <CharacterRow title='imdbRating' value={filmDescription.imdbRating} />
+                    <CharacterRow title='imdbVotes' value={filmDescription.imdbVotes} />
+                    <CharacterRow title='Runtime' value={filmDescription.Runtime} />
 
-                        {filmDescription.Ratings && filmDescription.Ratings.map((rating) => (
-                            <React.Fragment key={rating.Source}>
-                                <CharacterRow title={rating.Source} value={rating.Value} />
-                            </React.Fragment>))}
-                    </div>
+                    {filmDescription.Ratings && filmDescription.Ratings.map((rating) => 
+                        <CharacterRow key={rating.Source} title={rating.Source} value={rating.Value} />
+                    )}
                 </div>
-            </div>
-        </div >
+            </Container>
+        </>
     )
 }
 
