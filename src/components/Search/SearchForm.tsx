@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import style from './Search.module.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getFilms } from "../../redux/movies-reducer";
 import 'antd/dist/antd.css';
@@ -26,7 +25,7 @@ const SearchForm: React.FC = () => {
     };
 
     return (
-        <div className={style.searchWrapper}>
+        <>
             <Form onFinish={onFinish} 
             form={form}
                 initialValues={{
@@ -70,7 +69,7 @@ const SearchForm: React.FC = () => {
                     </Form.Item>
                 </Input.Group>
             </Form>
-        </div>
+        </>
     )
 }
 
