@@ -38,6 +38,8 @@ const Value = styled.div`
 
 const CharacterRow: React.FC<PropType> = ({ title, value }) => {
 
+    if (!value) { return null }
+
     return (
         <Row>
             <Title>
