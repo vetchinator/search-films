@@ -5,7 +5,6 @@ import moviesReducer from './movies-reducer';
 
 let rootReducer = combineReducers({ 
     moviesPage: moviesReducer,
-    
 })
 
 export type AppDispatch = typeof store.dispatch;
