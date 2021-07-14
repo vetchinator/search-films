@@ -1,30 +1,49 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { actions } from '../../redux/movies-reducer';
 import { movieType } from '../../types/type';
-import style from './Movies.module.css';
+import styled from 'styled-components/macro';
+import CharacterRow from '../CharacterRow/CharacterRow';
+import { Poster } from '../StyledComponets/StyledComponents';
+
+const MovieContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+    cursor: pointer;
+    padding: 10px 0px;
+    transition: all 0.4s linear;
+    width: 330px;
+    min-height: 550px; 
+    justify-content: space-around;
+    border: 1px solid transparent;
+    border-radius: 10px;
+
+    &:hover {
+       border: 1px solid #1890ff;
+    }
+`;
 
 type PropType = { movie: movieType }
 
 const Movie: React.FC<PropType> = ({ movie }) => {
-    const dispatch = useDispatch();
 
-    const onClick = () => {
-        dispatch(actions.clearFilmDescription());
-    }
 
     return (
-        <Link to={`/film/${movie.imdbID}`} onClick={onClick} replace={true}>
-            <div className={style.movieWrapper}>
-                <img className={style.poster} src={movie.Poster} alt={`poster ${movie.Title}`} />
-                <div className={style.featureMovie}>
-                    <div><span className={style.title}>Title: </span> <span className={style.value}>{movie.Title}</span></div>
-                    <div><span className={style.title}>Type: </span><span className={style.value}>{movie.Type}</span></div>
-                    <div><span className={style.title}>Year: </span><span className={style.value}>{movie.Year}</span></div>
-                    <div><span className={style.title}>imdbID: </span><span className={style.value}>{movie.imdbID}</span></div>
+        <Link to={`/film/${movie.imdbID}`} >
+            <MovieContainer>
+                <div>
+                <Poster src={movie.Poster} alt={`poster ${movie.Title}`} />
                 </div>
-            </div>
+                
+                <div style={{width: '75%', marginTop: '10px'}}>
+                    <CharacterRow title='Title:' value={movie.Title} />
+                    <CharacterRow title='Type:' value={movie.Type} />
+                    <CharacterRow title='Year:' value={movie.Year} />
+                    <CharacterRow title='imdbID:' value={movie.imdbID} />
+                </div>   
+            </MovieContainer>
         </Link>
     )
 }
