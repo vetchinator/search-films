@@ -35,7 +35,7 @@ const SearchForm: React.FC = () => {
                 }}
             >
                 <Input.Group compact>
-                    <Form.Item name="title"
+                    <Form.Item name="title" style={{maxWidth: '200px'}}
                         rules={[
                             {
                                 required: true,
@@ -44,7 +44,7 @@ const SearchForm: React.FC = () => {
                         ]}>
                         <Input placeholder="title film" />
                     </Form.Item>
-                    <Form.Item name="year"
+                    <Form.Item name="year" style={{width: '100px'}}
                         rules={[
                             {
                                 pattern: /^\d+$/,
@@ -55,7 +55,7 @@ const SearchForm: React.FC = () => {
                          />
                     </Form.Item>
                     <Form.Item name="type">
-                        <Select style={{ width: '120px'}}>
+                        <Select style={{ width: '100px'}}>
                         <Option value="">All</Option>
                             <Option value="movie">Movie</Option>
                             <Option value="series">Series</Option>
